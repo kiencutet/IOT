@@ -1,14 +1,15 @@
-import React, { useState , useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import classNames from 'classnames/bind';
 import styles from './Board.module.scss';
-import fan from "../../images/fan2.png"
-import lightoff from "../../images/offt.png"
-import lighton from "../../images/ont.png"
-import humidityicon from "../../images/humidity.png"
-import temperatureicon from "../../images/tem.png"
-import sunicon from "../../images/sun.png"
+import fan from '../../images/fan2.png';
+import lightoff from '../../images/offt.png';
+import lighton from '../../images/ont.png';
+import humidityicon from '../../images/humidity.png';
+import temperatureicon from '../../images/tem.png';
+import sunicon from '../../images/sun.png';
+import Navigation from '../Navigation/Navigation';
+
 const cx = classNames.bind(styles);
 
 function getRandomValue(min, max) {
@@ -79,7 +80,7 @@ function Board() {
         lampElement.classList.add(cx('sunny'));
       }
     };
-  
+
     const setTemperatureColor = () => {
       if (temperature < 10) {
         temperatureElement.style.background = 'linear-gradient(to top right, #ffe2e5, #dfa6ac)';
@@ -89,7 +90,7 @@ function Board() {
         temperatureElement.style.background = 'linear-gradient(to top right, #db7883, #c13746)'; // Màu đậm chết
       }
     };
-    
+
     const setHumidityColor = () => {
       if (humidity < 70) {
         humidityElement.style.background = 'linear-gradient(to top right, #e2f8ff, #98cad9)';
@@ -98,8 +99,8 @@ function Board() {
       } else {
         humidityElement.style.background = 'linear-gradient(to top right, #89bccf, #3b7799)'; // Màu đậm chết
       }
-    };    
-  
+    };
+
     const setLightColor = () => {
       if (light < 40) {
         lightElement.style.background = 'linear-gradient(to top right, #efebd8, #ebd474, #ffcc00)';
@@ -114,90 +115,75 @@ function Board() {
     setHumidityColor();
     setLightColor();
   }, [temperature, humidity, light]); // Dependency trống, chỉ chạy một lần sau khi component được mount
-  
-  
-  
-  return (
-    <div className={cx('board')}>
-    <Link to="/infor">
-        <button>Go to Infor</button>
-      </Link>
-      <div className={cx('parameter')}>
-        <div className={cx('temperature', 'parameter-child')}>
-        <div className={cx('tem-content')}>
-          <p 
-            className={cx('text-content')} 
-           
-          >TEMPERATURE</p>
-          <img src={temperatureicon} alt=''/>
-        </div>
-          <p className={cx('text-content')}  >{temperature} °C</p>
-        </div>
-        <div className={cx('humidity', 'parameter-child')}>
-        <div className={cx('hum-content')} >
-          <p 
-            className={cx('text-content')}
-            
-            >HUMIDITY</p>
-          <img src={humidityicon} alt=''/>
-        </div>
-          <p className={cx('text-content')}  >{humidity} %</p>
-        </div>
-        <div className={cx('sunny', 'parameter-child')}>
-        <div className={cx('li-content')}>
-          <p 
-            className={cx('text-content')} 
-            
-          >LIGHT</p>
-          <img  src={sunicon} alt=''/>
-        </div>
-          <p className={cx('text-content')}  >{light} Lux</p>
-        </div>
-      </div>
-      <div className={cx('display')}>
-        <div className={cx('chart', 'chart-bg')}>
-          <BarChart width={800} height={400} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="temperature" fill="#FF5733" name="TEMPERATURE" />
-            <Bar dataKey="humidity" fill="#33A0FF" name="HUMIDITY" />
-            <Bar dataKey="light" fill="#FFD700" name="LIGHT" />
-          </BarChart>
-        </div>
-        <div className={cx('improve')}>
-          <div className={cx('fan', 'humidity')}>
-            <img 
-              src={fan} 
-              alt="" 
-              className={isSpinning ? cx('spin') : ''}
-              onClick={() => setIsSpinning(!isSpinning)} 
-            />
-            <label 
-            className={cx('switch')}
-            style={{marginTop: '35px'}}
-          >
-            <span className={cx('off-label', { 'bold-text': !isSpinning })}>OFF</span>
-            <input type="checkbox" checked={isChecked} onChange={handleCheckboxFan} />
-            <span className={cx('slider', 'round')}></span>
-            <span className={cx('on-label', { 'bold-text': isSpinning })}>ON</span>
-          </label>
-          </div>
-          <div className={cx('lamp', 'sunny')}>
-          {isLightOn ? (
-              <img  className={cx('lighton')} src={lighton} alt="Light On" />
-            ) : (
-              <img className={cx('lightoff')} src={lightoff} alt="Light Off" />
-            )}
-            <label className={cx('switch')}>
-            <span className={cx('off-label', { 'bold-text': !isLightOn })}>NIGHT</span>
-            <input type="checkbox" checked={isChecked1} onChange={handleCheckboxLight} />
-            <span className={cx('slider1', 'round')}></span>
-            <span className={cx('on-label', { 'bold-text': isLightOn })}>DAY</span>
-          </label>
 
+  return (
+    <div className={cx('bro')}>
+      <Navigation />
+      <div className={cx('board')}>
+        <div className={cx('parameter')}>
+          <div className={cx('temperature', 'parameter-child')}>
+            <div className={cx('tem-content')}>
+              <p className={cx('text-content')}>TEMPERATURE</p>
+              <img src={temperatureicon} alt="" />
+            </div>
+            <p className={cx('text-content')}>{temperature} °C</p>
+          </div>
+          <div className={cx('humidity', 'parameter-child')}>
+            <div className={cx('hum-content')}>
+              <p className={cx('text-content')}>HUMIDITY</p>
+              <img src={humidityicon} alt="" />
+            </div>
+            <p className={cx('text-content')}>{humidity} %</p>
+          </div>
+          <div className={cx('sunny', 'parameter-child')}>
+            <div className={cx('li-content')}>
+              <p className={cx('text-content')}>LIGHT</p>
+              <img src={sunicon} alt="" />
+            </div>
+            <p className={cx('text-content')}>{light} Lux</p>
+          </div>
+        </div>
+        <div className={cx('display')}>
+          <div className={cx('chart', 'chart-bg')}>
+            <BarChart width={800} height={400} data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="temperature" fill="#FF5733" name="TEMPERATURE" />
+              <Bar dataKey="humidity" fill="#33A0FF" name="HUMIDITY" />
+              <Bar dataKey="light" fill="#FFD700" name="LIGHT" />
+            </BarChart>
+          </div>
+          <div className={cx('improve')}>
+            <div className={cx('fan', 'humidity')}>
+              <img
+                src={fan}
+                alt=""
+                className={isSpinning ? cx('spin') : ''}
+                onClick={() => setIsSpinning(!isSpinning)}
+              />
+              <label className={cx('switch')} style={{ marginTop: '35px' }}>
+                <span className={cx('off-label', { 'bold-text': !isSpinning })}>OFF</span>
+                <input type="checkbox" checked={isChecked} onChange={handleCheckboxFan} />
+                <span className={cx('slider', 'round')}></span>
+                <span className={cx('on-label', { 'bold-text': isSpinning })}>ON</span>
+              </label>
+            </div>
+            <div className={cx('lamp', 'sunny')}>
+              {isLightOn ? (
+                <img className={cx('lighton')} src={lighton} alt="Light On" />
+              ) : (
+                <img className={cx('lightoff')} src={lightoff} alt="Light Off" />
+              )}
+              <label className={cx('switch')}>
+                <span className={cx('off-label', { 'bold-text': !isLightOn })}>NIGHT</span>
+                <input type="checkbox" checked={isChecked1} onChange={handleCheckboxLight} />
+                <span className={cx('slider1', 'round')}></span>
+                <span className={cx('on-label', { 'bold-text': isLightOn })}>DAY</span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
